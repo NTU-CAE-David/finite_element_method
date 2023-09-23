@@ -36,10 +36,13 @@ Detailed documentation on how to use this mesh generator tool effectively is ava
 
 ## Contributions
 
-We welcome contributions from students and collaborators. If you have improvements to the course materials, new assignments, or enhancements to the mesh generation tool, please feel free to submit pull requests.
+We welcome contributions from collaborators. If you have improvements to the course materials, new assignments, or enhancements to the mesh generation tool, please feel free to submit pull requests.
 
 ## Contact
 
-If you have questions or need assistance related to the course, materials, assignments, or the mesh generation tool, please reach out to the course instructor or teaching assistants.
+Should you have any inquiries, suggestions, or feedback, please don't hesitate to reach out:
+
+* Email: chiwei1614@caece.net
+* GitHub: (NTU-CAE-David's GitHub)[https://github.com/NTU-CAE-David]
 
 *Last updated: 2023/9/23*
