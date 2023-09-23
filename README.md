@@ -38,7 +38,11 @@ Detailed documentation on how to use this mesh generator tool effectively is ava
 
 In this example, we will perform a finite element analysis on a flat bar with shoulder fillets, as shown in the figure below. The bar is subjected to tensile forces *P* = 2.5 kN and has a thickness of *t* = 5.0 mm.
 
-![Bar with Shoulder Fillets](https://prod-files-secure.s3.us-west-2.amazonaws.com/5b66baa1-c8b9-48e3-905b-54436552e3cf/84176d69-6a7d-4df5-9e47-3267a5e885af/Untitled.png)
+<div style="display: flex; justify-content: space-between;">
+    <img src="https://github.com/NTU-CAE-David/finite_element_method/blob/master/HW/HW01/HW01-4/flatBar_shoulderFillets_Mesh.png" alt="Mesh" width="30%">
+    <img src="https://github.com/NTU-CAE-David/finite_element_method/blob/master/HW/HW01/HW01-4/flatBar_shoulderFillets_Mesh_density_func.png" alt="Density Function" width="30%">
+    <img src="https://github.com/NTU-CAE-David/finite_element_method/blob/master/HW/HW01/HW01-4/flatBar_shoulderFillets_signed_dis_func.png" alt="Signed Distance Function" width="30%">
+</div>
 
 We assume a Poisson's ratio of 0.3 and a Young's modulus (*E*) of 200 GPa for the material.
 
