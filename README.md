@@ -43,6 +43,6 @@ We welcome contributions from collaborators. If you have improvements to the cou
 Should you have any inquiries, suggestions, or feedback, please don't hesitate to reach out:
 
 * Email: chiwei1614@caece.net
-* GitHub: (NTU-CAE-David's GitHub)[https://github.com/NTU-CAE-David]
+* GitHub: [NTU-CAE-David's GitHub](https://github.com/NTU-CAE-David)
 
 *Last updated: 2023/9/23*
