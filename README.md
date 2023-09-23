@@ -86,7 +86,8 @@ The following table shows the element connections, indicating which nodes are co
 To perform the finite element analysis and obtain results such as stress and deformation, you would typically use specialized software or code. This example provides an overview of the mesh generation process and the mesh's characteristics. Actual analysis and computations would involve additional code and simulation procedures tailored to the specific problem.
 
 This example serves as a starting point for conducting finite element analysis on complex geometries and structures.
-```
+
+```Matlab
 %% A flat bar of rectangular cross section
 
 iteration_max = 200;
