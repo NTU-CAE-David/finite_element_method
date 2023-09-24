@@ -8,7 +8,7 @@ function write_output_file(filename, nodes, elements)
     % Write MATPROP section
     fprintf(fid, '*MATPROP\n');
     fprintf(fid, "b-plane-strain: 1\n");
-    fprintf(fid, "young's-modulus: 100.0\n");
+    fprintf(fid, "young's-modulus: 200.0\n");
     fprintf(fid, "poisson's-ratio: 0.3\n");
     
     % Write NODE section
