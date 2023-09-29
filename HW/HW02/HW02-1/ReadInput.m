@@ -37,6 +37,7 @@ function [ndime,nnode,nelem,nelnd,npres,ntrac,mate,coor,conn,pres,trac] = ReadIn
     end
 
     % 讀取BOUNDARY
+    % 讀取disp condition
     npres = str2num(cellarray{1}{indEle+3});
     indBoundary = indEle + 4;
     pres = zeros(3,npres);
