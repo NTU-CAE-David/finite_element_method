@@ -1,5 +1,10 @@
 function write_output_file(filename, nodes, elements)
-    fid = fopen(filename, 'w');
+    % Generate the Mesh input file
+    
+    % Generate the output filename based on the input filename
+%     inputFilename = [filename, '_input.ipt'];
+    inputFilename = filename;
+    fid = fopen(inputFilename, 'w');
     
     % Write PARAMETER section
     fprintf(fid, '*PARAMETER\n');
@@ -34,6 +39,8 @@ function write_output_file(filename, nodes, elements)
     fprintf(fid, "node#-dof#-disp:\n");
     fprintf(fid, "num-prescribed-load: 0\n");
     fprintf(fid, "elem#-face#-trac:\n");
+%     fprintf(fid, "num-prescribed-force: 0\n");
+%     fprintf(fid, "node#-dof#-force:\n");
     
     
     fclose(fid);

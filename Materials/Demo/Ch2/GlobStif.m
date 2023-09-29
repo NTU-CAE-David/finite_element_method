@@ -1,6 +1,6 @@
 %% GlobStif function
 function kglob = GlobStif(ndime,nnode,nelem,nelnd,mate,coor,conn)
-    kglob = zeros(ndim*nnode,ndim*nnode);
+    kglob = zeros(ndime*nnode,ndime*nnode);
     for j = 1:nelem
         kel = ElemStif(j,mate,coor,conn);
         for a = 1:nelnd

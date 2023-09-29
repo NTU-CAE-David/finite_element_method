@@ -26,3 +26,5 @@ node#-dof#-disp:
 num-prescribed-load: 1
 elem#-face#-trac:
 2 1 10.0 0.0
+num-prescribed-force: 0
+node#-dof#-force: 
