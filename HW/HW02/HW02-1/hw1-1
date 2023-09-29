@@ -2,7 +2,7 @@
 num-dim: 2
 *MATPROP
 b-plane-strain: 1
-young's-modulus: 200.0
+young's-modulus: 30000000.0
 poisson's-ratio: 0.3
 *NODE
 num-node: 444

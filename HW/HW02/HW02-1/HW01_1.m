@@ -9,8 +9,8 @@ kglob = GlobStif(ndime, nnode, nelem, nelnd, mate, coor, conn);
 
 %% 計算全局荷載向量
 % 讀取 node force
-force = [5 1 25;
-         6 1 -25];
+force = [5 1 25e3;
+         6 1 -25e3];
 nforce = size(force,1);
 force = force';
 
@@ -50,9 +50,18 @@ end
 %% 解方程系統（求解位移）
 % u = K^-1*r
 u = kglob \ rglob;
+u(isnan(u)) = 0;    % 將 u 中的 NaN 值替換為 0
+
+% 循環遍歷位移向量 u_x 的部分
+u_x_sum = 0;
+for i = 1:2:numel(u)
+    u_x_sum = u_x_sum + u(i);
+end
+disp(['u 的 x 方向之和：', num2str(u_x_sum)]);
 
 %% 計算應力或其他所需結果
 % stress, strain
+% TODO
 strain_matrix = [];
 stress_matrix = [];
 

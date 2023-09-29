@@ -11,6 +11,8 @@ function WriteOutput(filename,ndime,nnode,u,nelem,strain_matrix,stress_matrix)
         fprintf(outputFile, '%d %f %f\n', node, u((node-1)*ndime+1), u((node-1)*ndime+2));
     end
     
+
+    % TODO
     % Write element results to the output file
     fprintf(outputFile, '*ELEMENT\n');
     fprintf(outputFile, 'elem#-e11-e22-e12-s11-s22-s12\n');
