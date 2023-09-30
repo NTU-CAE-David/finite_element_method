@@ -1627,7 +1627,20 @@ elem-conn:
 492 498 499
 498 505 499
 *BOUNDARY
-num-prescribed-disp: 0
+num-prescribed-disp: 13
 node#-dof#-disp:
+1 1 0.0
+2 1 0.0
+3 1 0.0
+18 1 0.0
+19 1 0.0
+20 1 0.0
+22 1 0.0
+14 1 0.0
+15 1 0.0
+16 1 0.0
+598 1 0.0
+599 1 0.0
+600 1 0.0
 num-prescribed-load: 0
 elem#-face#-trac:

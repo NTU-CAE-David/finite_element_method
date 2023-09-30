@@ -1,3 +1,5 @@
+%% HW01-2: Finite Element Analysis
+
 %% 打開文件
 filename = 'hw1-2';
 inputFile = fopen(filename, 'r');
@@ -8,9 +10,9 @@ inputFile = fopen(filename, 'r');
 kglob = GlobStif(ndime, nnode, nelem, nelnd, mate, coor, conn);
 
 %% 計算全局荷載向量
-% 讀取 node force
-force = [5 1 25e3;
-         6 1 -25e3];
+% 讀取 node force [node dof force]
+force = [4 1 25.5e3;
+         9 1 -17.0e3];
 nforce = size(force,1);
 force = force';
 

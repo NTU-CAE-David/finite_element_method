@@ -8,7 +8,7 @@ inputFile = fopen(filename, 'r');
 kglob = GlobStif(ndime, nnode, nelem, nelnd, mate, coor, conn);
 
 %% 計算全局荷載向量
-% 讀取 node force
+% 讀取 node force [node dof force]
 force = [5 1 25e3;
          6 1 -25e3];
 nforce = size(force,1);
@@ -29,6 +29,7 @@ end
 % 讀取 Traction
 % 未完成
 % rglob = GlobTrac(ndime, nnode, nelem, nelnd, ntrac, mate, coor, conn, trac);
+%% HW01-1: Finite Element Analysis
 
 %% 處理邊界條件
 % Prescribed displacements
