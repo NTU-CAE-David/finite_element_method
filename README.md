@@ -10,6 +10,33 @@ Welcome to the MATLAB-Based Finite Element Analysis Framework repository for ME 
 
 ## Contents
 
+├── HW
+│   ├── HW01
+│   └── HW02
+├── Materials
+│   ├── Demo
+│   └── Matlab_lib
+│       ├── ElemStif.m
+│       ├── ElemTrac.m
+│       ├── GlobStif.m
+│       ├── GlobTrac.m
+│       ├── ReadInput.m
+│       ├── WriteOutput.m
+│       ├── distmesh-2_ntu.zip
+│       ├── distmesh.zip
+│       ├── distmesh_ntu
+│       ├── distmesh_v10.zip
+│       ├── findBoundary.m
+│       └── write_output_file.m
+├── README.md
+└── finite_element_method-main
+    └── mesh_generator
+        ├── gen_mesh.py
+        ├── geometry.yaml
+        ├── input.ipt
+        ├── main.py
+        └── utlis
+
 ### Materials
 
 In this repository, you will find a collection of course materials, lecture notes, and resources essential for understanding the finite element method. These materials cover various topics related to finite element analysis, both linear and nonlinear. They are designed to facilitate your learning and provide valuable insights into the principles and applications of finite element analysis.
