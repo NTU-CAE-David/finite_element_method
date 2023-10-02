@@ -61,14 +61,47 @@ for i = 1:2:numel(u)
 end
 disp(['u 的 x 方向之和：', num2str(u_x_sum)]);
 
-%% 計算應力或其他所需結果
-% stress, strain
-% TODO
-strain_matrix = [];
-stress_matrix = [];
+%% 解方程系統（求解外力r）
+
+
+
+
 
 %% Output file
 % Generate the output filename based on the input filename
 [~, filename, ext] = fileparts(filename);
 outputFilename = [filename, '_output.opt'];
-WriteOutput(outputFilename, ndime,nnode,u,nelem,strain_matrix,stress_matrix);
+
+% 包含求解 stress, strain
+% 存入 strain_stress_matrix[elem#-e11-e22-e12-s11-s22-s12]
+strain_stress_matrix = WriteOutput(outputFilename, ndime,nnode,u,nelem,mate,coor,conn); 
+
+
+%% 計算應力或其他所需結果
+
+% 定义要查找的 x 值
+xRnage = [0, 0]; % 例如，查找 64 到 65 的所有邊界點
+
+% 调用函数查找包含匹配 x 值的边界元素
+boundaryElements = findBoundaryElements(coor, conn, xRnage);
+
+% 初始化一个变量来存储应力总和
+total_stress = 0.0;
+
+% 遍历 strain_stress_matrix 中的每一行
+for i = 1:size(strain_stress_matrix, 1)
+    % 获取当前行的元素号
+    current_elem = strain_stress_matrix(i, 1);
+
+    % 检查当前元素是否在边界元素列表中
+    if ismember(current_elem, boundaryElements)
+        % 如果是边界元素，将应力数据（第5列）加到总和中
+        total_stress = total_stress + strain_stress_matrix(i, 5);
+    end
+end
+
+% 打印总和的应力值
+Area_1 = 840/10e6; % m^2
+Area_2 = 1260/10e6; % m^2
+fprintf('Total stress on the boundary: %.3f\n', total_stress*Area_1);
+
