@@ -1,3 +1,5 @@
+%% HW01-1: Finite Element Analysis
+
 %% 打開文件
 filename = 'hw1-1';
 inputFile = fopen(filename, 'r');
@@ -29,9 +31,8 @@ end
 % 讀取 Traction
 % 未完成
 % rglob = GlobTrac(ndime, nnode, nelem, nelnd, ntrac, mate, coor, conn, trac);
-%% HW01-1: Finite Element Analysis
 
-%% 處理邊界條件
+%% 處理邊界條件 (Section 2.7 item 11)
 % Prescribed displacements
 if npres ~= 0 % 檢測是否有位移邊界條件
     for i = 1:npres
@@ -58,16 +59,49 @@ u_x_sum = 0;
 for i = 1:2:numel(u)
     u_x_sum = u_x_sum + u(i);
 end
-disp(['u 的 x 方向之和：', num2str(u_x_sum)]);
+fprintf('Total elongation: %.3f in\n\n', u_x_sum / 4); % u 的 x 方向之和
 
 %% 計算應力或其他所需結果
-% stress, strain
-% TODO
-strain_matrix = [];
-stress_matrix = [];
+
+
+
+
 
 %% Output file
 % Generate the output filename based on the input filename
 [~, filename, ext] = fileparts(filename);
 outputFilename = [filename, '_output.opt'];
-WriteOutput(outputFilename, ndime,nnode,u,nelem,strain_matrix,stress_matrix);
+
+% 包含求解 stress, strain
+% 存入 strain_stress_matrix[elem#-e11-e22-e12-s11-s22-s12]
+strain_stress_matrix = WriteOutput(outputFilename, ndime,nnode,u,nelem,mate,coor,conn); 
+
+
+%% 計算應力或其他所需結果
+
+% 定義要查找的 stress 的範圍
+xRnage = [0, 60]; % elongation，查找 x 在 0 到 60 的所有邊界點之 strain
+yRange = [-0.1, 0.1]; % elongation，給定 y 在 -0.5 到 0.5 的所有邊界點之 strain
+
+% 調用函數查找包含匹配 x 值的边界元素
+boundaryElements = findBoundaryElements(coor, conn, xRnage, yRange);
+
+% 初始化一個變量來儲存應變總和
+total_strain = 0.0;
+
+% 遍歷 strain_stress_matrix 中的每一行
+for i = 1:size(strain_stress_matrix, 1)
+    % 獲取當前行的元素編號
+    current_elem = strain_stress_matrix(i, 1);
+
+    % 檢查當前元素是否在邊界元素列表中
+    if ismember(current_elem, boundaryElements)
+        % 如果是邊界元素，將主應變數據（第2列）加到總和中
+        total_strain = total_strain + strain_stress_matrix(i, 2);
+    end
+end
+
+% 印出總和的應力值
+L = 60; % 總長 60 in
+fprintf('Total elongation: %.3f in\n', total_strain*L);
+

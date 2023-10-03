@@ -32,7 +32,7 @@ end
 % 未完成
 % rglob = GlobTrac(ndime, nnode, nelem, nelnd, ntrac, mate, coor, conn, trac);
 
-%% 處理邊界條件
+%% 處理邊界條件  (Section 2.7 item 11)
 % Prescribed displacements
 if npres ~= 0 % 檢測是否有位移邊界條件
     for i = 1:npres
@@ -59,7 +59,7 @@ u_x_sum = 0;
 for i = 1:2:numel(u)
     u_x_sum = u_x_sum + u(i);
 end
-disp(['u 的 x 方向之和：', num2str(u_x_sum)]);
+fprintf('u 的 x 方向之和: %.3f mm \n\n', u_x_sum / 50); % u 的 x 方向之和
 
 %% 解方程系統（求解外力r）
 
@@ -79,29 +79,31 @@ strain_stress_matrix = WriteOutput(outputFilename, ndime,nnode,u,nelem,mate,coor
 
 %% 計算應力或其他所需結果
 
-% 定义要查找的 x 值
-xRnage = [0, 0]; % 例如，查找 64 到 65 的所有邊界點
+% 定義要查找的 stress 的範圍
+xRnage = [0, 2.1]; % R_A，查找 0 到 2.1 的所有邊界點之 stress
+% xRnage = [63, 65]; % R_D，查找 63 到 65 的所有邊界點之 stress
+% xRnage = [30, 32]; % F_BC，查找 30 到 32 的所有邊界點之 stress
 
-% 调用函数查找包含匹配 x 值的边界元素
+% 調用函數查找包含匹配 x 值的边界元素
 boundaryElements = findBoundaryElements(coor, conn, xRnage);
 
-% 初始化一个变量来存储应力总和
+% 初始化一個變量來儲存應力總和
 total_stress = 0.0;
 
-% 遍历 strain_stress_matrix 中的每一行
+% 遍歷 strain_stress_matrix 中的每一行
 for i = 1:size(strain_stress_matrix, 1)
-    % 获取当前行的元素号
+    % 獲取當前行的元素編號
     current_elem = strain_stress_matrix(i, 1);
 
-    % 检查当前元素是否在边界元素列表中
+    % 檢查當前元素是否在邊界元素列表中
     if ismember(current_elem, boundaryElements)
-        % 如果是边界元素，将应力数据（第5列）加到总和中
+        % 如果是邊界元素，將應力數據（第5列）加到總和中
         total_stress = total_stress + strain_stress_matrix(i, 5);
     end
 end
 
-% 打印总和的应力值
+% 印出總和的應力值
 Area_1 = 840/10e6; % m^2
 Area_2 = 1260/10e6; % m^2
-fprintf('Total stress on the boundary: %.3f\n', total_stress*Area_1);
+fprintf('Total force on the boundary: %.3f kN\n', total_stress*Area_2);
 

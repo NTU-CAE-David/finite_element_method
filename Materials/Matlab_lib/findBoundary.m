@@ -1,7 +1,8 @@
-function boundaryNodes = findBoundary(coor, xRange)
-    % 查找指定 x 值的邊界點及其節點編號
+function boundaryNodes = findBoundary(coor, xRange, yRange)
+    % 尋找指定 x 和 y 範圍內的邊界點及其節點編號
     % 將輸出的 Boundary 手動覆蓋到 input 檔中
     % 包含於 findBoundaryElements.m 中執行，無需獨立執行！！
+
     %{ 
         ======使用形式======    
         % 定義要查找的 x 值
@@ -11,22 +12,27 @@ function boundaryNodes = findBoundary(coor, xRange)
         boundaryNodes = findBoundary(coor, xRange);
     %}
 
+    % 檢查是否提供了 y 範圍，預設為無限制
+    if nargin < 3
+        yRange = [-inf, inf];
+    end
+
     % 初始化结果
     boundaryNodes = [];
     
-    % 提取節點的 x 坐標
     coor = coor'; % 轉置
-    xCoords = coor(:, 1);
-    
+    xCoords = coor(:, 1); % 提取節點的 x 坐標
+    yCoords = coor(:, 2); % 提取節點的 y 坐標
     
 
-    % 遍历 xCoords 数组
+    % 遍歷 xCoords 和 yCoords 陣列
     for i = 1:numel(xCoords)
         xValue = xCoords(i);
+        yValue = yCoords(i);
     
-        % 检查 xValue 是否在指定的范围内
-        if xValue >= xRange(1) && xValue <= xRange(2)
-            % 如果在范围内，将节点索引和坐标添加到结果中
+        % 檢查 xValue 和 yValue 是否在指定的範圍內
+        if xValue >= xRange(1) && xValue <= xRange(2) && yValue >= yRange(1) && yValue <= yRange(2)
+            % 如果在範圍內，將節點索引和座標添加到結果中
             boundaryNodes = [boundaryNodes; i, coor(i, :)];
         end
     end
