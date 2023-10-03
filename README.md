@@ -18,6 +18,7 @@ Welcome to the MATLAB-Based Finite Element Analysis Framework repository for ME 
 │   ├── Demo
 │   └── Matlab_lib
 │       ├── ElemStif.m
+│       ├── ElemStrain.m
 │       ├── ElemTrac.m
 │       ├── GlobStif.m
 │       ├── GlobTrac.m
@@ -28,6 +29,7 @@ Welcome to the MATLAB-Based Finite Element Analysis Framework repository for ME 
 │       ├── distmesh_ntu
 │       ├── distmesh_v10.zip
 │       ├── findBoundary.m
+│       ├── findBoundaryElements.m
 │       └── write_output_file.m
 ├── README.md
 └── finite_element_method-main
