@@ -7,6 +7,7 @@ function boundaryNodes = findBoundary(coor, xRange, yRange)
         ======使用形式======    
         % 定義要查找的 x 值
         xRange = [64, 65]; % 例如，查找 64 到 65 的所有邊界點
+        yRange = [-inf, inf]; % 例如，查找在 y 範圍內的元素
         
         % 調用函數查找匹配 x 值的邊界點及其節點編號
         boundaryNodes = findBoundary(coor, xRange);
