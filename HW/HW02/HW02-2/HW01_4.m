@@ -1,4 +1,4 @@
-%% HW01-2: Finite Element Analysis
+%% HW01-3: Finite Element Analysis
 % E (GPa)
 % force (kN)
 % length unit (mm)
@@ -6,7 +6,8 @@
 % strain
 
 %% 打開文件
-filename = 'hw1-2';
+filename = 'hw1-4_infinitas';
+% filename = 'hw1-4';
 inputFile = fopen(filename, 'r');
 % 讀取輸入數據
 [ndime, nnode, nelem, nelnd, npres, ntrac, mate, coor, conn, pres, trac] = ReadInput(inputFile);
@@ -16,8 +17,8 @@ kglob = GlobStif(ndime, nnode, nelem, nelnd, mate, coor, conn);
 
 %% 計算全局荷載向量(force unit kN)
 % 讀取 node force [node dof force]
-force = [4 1 25.5e3;
-         9 1 -17.0e3];
+force = [1 1 -2500;
+         2 1 2500];
 nforce = size(force,1);
 force = force';
 
@@ -85,15 +86,16 @@ strain_stress_matrix = WriteOutput(outputFilename, ndime,nnode,u,nelem,mate,coor
 %% 計算應力或其他所需結果
 
 % 定義要查找的 stress 的範圍
-xRnage = [0, 3.5]; % R_A，查找 0 到 3.5 的所有邊界點之 stress
-xRnage = [62, 65]; % R_D，查找 62 到 65 的所有邊界點之 stress
-xRnage = [30, 33]; % F_BC，查找 30 到 33 的所有邊界點之 stress
+xRnage = [0.5, 11.5]; % 查找 0 到 2.1 的所有邊界點之 stress
+xRnage = [-6, 18]; % 查找 0 到 2.1 的所有邊界點之 stress
+yRnage = [-3, 3];
 
-% 調用函數查找包含匹配 x 值的邊界元素
-boundaryElements = findBoundaryElements(coor, conn, xRnage);
+% 調用函數查找包含匹配 x 值的边界元素
+boundaryElements = findBoundaryElements(coor, conn, xRnage, yRnage);
 
 % 初始化一個變量來儲存應力總和
 total_stress = 0.0;
+max_stress = 0.0;
 
 % 遍歷 strain_stress_matrix 中的每一行
 for i = 1:size(strain_stress_matrix, 1)
@@ -102,13 +104,30 @@ for i = 1:size(strain_stress_matrix, 1)
 
     % 檢查當前元素是否在邊界元素列表中
     if ismember(current_elem, boundaryElements)
+        
         % 如果是邊界元素，將應力數據（第5列）加到總和中
         total_stress = total_stress + strain_stress_matrix(i, 5);
+        
+        % 找出應力最大值
+        if strain_stress_matrix(i, 5) > max_stress
+            max_stress = strain_stress_matrix(i, 5);
+        end
+
     end
 end
 
 % 印出總和的應力值
-Area_1 = 840/10e6; % m^2
-Area_2 = 1260/10e6; % m^2
-fprintf('Total force on the boundary: %.3f kN\n', total_stress*Area_1);
+Area = 300/10e6; % m^2
+fprintf('Total force on the boundary: %.3f kN\n', total_stress*Area);
+fprintf('Max stress is %.3f MPa\n', max_stress/100); % cm^2 -> mm^2
+
+%% 找出應力最大值
+
+% i 是應力數據（第5列）
+i = 5; 
+
+% 使用 max 函數找出第 i 行的最大值和索引
+[row_max_value, index_of_max] = max(strain_stress_matrix(30:40, i));
+
+fprintf('第 %d 行的最大值是 %f，位於索引 %d。\n', i, row_max_value, index_of_max);
 

@@ -1,4 +1,9 @@
 %% HW01-3: Finite Element Analysis
+% E (GPa)
+% force (kN)
+% length unit (mm)
+% stress (Pa)
+% strain
 
 %% 打開文件
 filename = 'hw1-3_infinitas';
@@ -10,7 +15,7 @@ inputFile = fopen(filename, 'r');
 %% 計算全局剛度矩陣
 kglob = GlobStif(ndime, nnode, nelem, nelnd, mate, coor, conn);
 
-%% 計算全局荷載向量
+%% 計算全局荷載向量(force unit kN)
 % 讀取 node force [node dof force]
 force = [1 1 -2500;
          2 1 2500];

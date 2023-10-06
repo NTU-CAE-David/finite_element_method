@@ -1,4 +1,9 @@
 %% HW01-1: Finite Element Analysis
+% E (GPa)
+% force (lb)
+% length unit (in)
+% stress (Pa)
+% strain
 
 %% 打開文件
 filename = 'hw1-1';
@@ -9,10 +14,10 @@ inputFile = fopen(filename, 'r');
 %% 計算全局剛度矩陣
 kglob = GlobStif(ndime, nnode, nelem, nelnd, mate, coor, conn);
 
-%% 計算全局荷載向量
+%% 計算全局荷載向量(force unit kN)
 % 讀取 node force [node dof force]
 force = [5 1 25e3;
-         6 1 -25e3];
+         2 1 -25e3];
 nforce = size(force,1);
 force = force';
 
@@ -81,7 +86,7 @@ strain_stress_matrix = WriteOutput(outputFilename, ndime,nnode,u,nelem,mate,coor
 
 % 定義要查找的 stress 的範圍
 xRnage = [0, 60]; % elongation，查找 x 在 0 到 60 的所有邊界點之 strain
-yRange = [-0.1, 0.1]; % elongation，給定 y 在 -0.5 到 0.5 的所有邊界點之 strain
+yRange = [0, 0.5]; % elongation，給定 y 在 -0.5 到 0.5 的所有邊界點之 strain
 
 % 調用函數查找包含匹配 x 值的边界元素
 boundaryElements = findBoundaryElements(coor, conn, xRnage, yRange);
@@ -103,5 +108,5 @@ end
 
 % 印出總和的應力值
 L = 60; % 總長 60 in
-fprintf('Total elongation: %.3f in\n', total_strain*L);
+fprintf('Total elongation: %f in\n', total_strain);
 
