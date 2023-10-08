@@ -1,7 +1,7 @@
 %% HW01-2: Finite Element Analysis
-% E (GPa)
-% force (kN)
-% length unit (mm)
+% E (Pa)
+% force (N)
+% length unit (m)
 % stress (Pa)
 % strain
 
@@ -14,7 +14,7 @@ inputFile = fopen(filename, 'r');
 %% 計算全局剛度矩陣
 kglob = GlobStif(ndime, nnode, nelem, nelnd, mate, coor, conn);
 
-%% 計算全局荷載向量(force unit kN)
+%% 計算全局荷載向量(force unit N)
 % 讀取 node force [node dof force]
 force = [4 1 25.5e3;
          9 1 -17.0e3];
