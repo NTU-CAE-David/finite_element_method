@@ -87,7 +87,7 @@ strain_stress_matrix = WriteOutput(outputFilename, ndime,nnode,u,nelem,mate,coor
 % 定義要查找的 stress 的範圍
 xRnage = [0, 3.5]; % R_A，查找 0 到 3.5 的所有邊界點之 stress
 xRnage = [62, 65]; % R_D，查找 62 到 65 的所有邊界點之 stress
-xRnage = [30, 33]; % F_BC，查找 30 到 33 的所有邊界點之 stress
+% xRnage = [30, 33]; % F_BC，查找 30 到 33 的所有邊界點之 stress
 
 % 調用函數查找包含匹配 x 值的邊界元素
 boundaryElements = findBoundaryElements(coor, conn, xRnage);
