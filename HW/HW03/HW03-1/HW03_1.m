@@ -10,10 +10,18 @@ inputFile = fopen(filename, 'r');
 [ndime, nnode, nelem, nelnd, npres, ntrac, mate, coor, conn, pres, trac] = ReadInput(inputFile);
 
 %% 計算全局剛度矩陣
-kglob = GlobStif_Gauss(ndime, nnode, nelem, nelnd, mate, coor, conn);
+% 使用 "Basic" 
+kglob = GlobStif(ndime, nnode, nelem, nelnd, mate, coor, conn);
+
+% 使用 "高斯積分法" 
+kglob_Gauss = GlobStif_Gauss(ndime, nnode, nelem, nelnd, mate, coor, conn);
 
 
-
+% 計算兩個矩陣的誤差值
+error_matrix = kglob - kglob_Gauss;
+abs_error = abs(error_matrix); % 計算誤差的絕對值
+max_error = max(abs_error(:)); % 計算誤差的最大值
+fprintf('兩個矩陣的最大誤差值為：%f\n', max_error); % 顯示誤差的最大值
 
 
 
