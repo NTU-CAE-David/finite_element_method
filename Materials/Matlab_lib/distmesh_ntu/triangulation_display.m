@@ -208,6 +208,12 @@ function triangulation_display ( prefix, node_show, element_show, ...
   fprintf ( 1, '\n' );
   timestamp ( );
 
+%
+% Print an image file containing the mesh.
+%
+  print('-dpng',[prefix '_meshNumber.png']);
+  fprintf(1,'  Graphics saved as "%s"\n',[prefix '.png']);
+
   return
 end
 function column_num = file_column_count ( input_file_name )

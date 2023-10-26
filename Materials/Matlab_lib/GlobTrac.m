@@ -1,6 +1,6 @@
 %% GlobTrac function
 function rglob = GlobTrac(ndime,nnode,nelem,nelnd,ntrac,mate,coor,conn,trac)
-    rglob = zeros(ndim*nnode,1);
+    rglob = zeros(ndime*nnode,1);
     for j = 1:ntrac
         rel = ElemTrac(j,coor,conn,trac);
         iel = trac(1,j);

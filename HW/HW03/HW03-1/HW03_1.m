@@ -47,8 +47,7 @@ for i = 1:nforce
 end
 
 % 讀取 Traction
-% 未完成
-% rglob = GlobTrac(ndime, nnode, nelem, nelnd, ntrac, mate, coor, conn, trac);
+rglob = GlobTrac(ndime, nnode, nelem, nelnd, ntrac, mate, coor, conn, trac);
 
 %% 處理邊界條件 (Section 2.7 item 11)
 % Prescribed displacements
