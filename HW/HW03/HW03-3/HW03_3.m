@@ -4,10 +4,11 @@
 % length unit (mm)
 % stress (Pa)
 % strain
-% Traction = 1 N/m
+% Traction = 1 kN/mm
+
+clc;clear;
 
 %% 打開文件
-filename = 'hw1-3_infinitas';
 filename = 'hw3-3-b';
 inputFile = fopen(filename, 'r');
 % 讀取輸入數據
@@ -21,7 +22,8 @@ kglob = GlobStif(ndime, nnode, nelem, nelnd, mate, coor, conn);
 % 使用 "高斯積分法" 
 kglob_Gauss = GlobStif_Gauss(ndime, nnode, nelem, nelnd, mate, coor, conn);
 
-% kglob = kglob_Gauss;
+kpres = kglob;
+% kpres = kglob_Gauss;
 
 % 計算兩個矩陣的誤差值
 error_matrix = kglob - kglob_Gauss;
@@ -50,35 +52,45 @@ fprintf('兩個矩陣的最大誤差值為：%f\n', max_error); % 顯示誤差�
 
 %% 讀取 Traction
 rglob = GlobTrac(ndime, nnode, nelem, nelnd, ntrac, mate, coor, conn, trac);
+rpres = rglob;
 
 %% 處理邊界條件  (Section 2.7 item 11)
 % Prescribed displacements
 if npres ~= 0 % 檢測是否有位移邊界條件
     for i = 1:npres
-        node = pres(1, i);  % Node where displacement is prescribed
-        dof = pres(2, i);   % Degree of freedom (e.g., x=1, y=2, z=3)
-        u_value = pres(3, i);  % Prescribed displacement value
-        
-        % Modify stiffness matrix
-        kglob(node * ndime - (ndime - dof), :) = 0;  % Zero out the row
-        kglob(node * ndime - (ndime - dof), node * ndime - (ndime - dof)) = 1;  % Set diagonal to 1
-        
-        % Modify residual force vector
-        rglob(node * ndime - (ndime - dof)) = u_value;
+        % 計算全局自由度編號 (idof)
+        idof = ndime * (pres(1, i) - 1) + pres(2, i);
+    
+        % 第一個迴圈：修改剛度矩陣和殘差力向量
+        for ir = 1:ndime * nnode
+            kpres(ir, idof) = 0;  % 清零剛度矩陣的相應行
+            rpres(ir) = rpres(ir) - kglob(ir, idof) * pres(3, i);  % 更新殘差力向量
+        end
+    end
+    
+    for i = 1:npres
+        % 再次計算全局自由度編號 (idof)
+        idof = ndime * (pres(1, i) - 1) + pres(2, i);
+    
+        % 第二個迴圈：應用位移邊界條件到剛度矩陣和殘差力向量
+        kpres(idof, :) = 0;  % 清零剛度矩陣的相應行
+        kpres(idof, idof) = 1;  % 設置對角元素為1
+        rpres(idof) = pres(3, i);  % 更新殘差力向量 Prescribed displacement value
     end
 end
 
+
 %% 解方程系統（求解位移）
 % u = K^-1*r
-u = kglob \ rglob;
-u(isnan(u)) = 0;    % 將 u 中的 NaN 值替換為 0
+uglob = (kpres)\rpres;
+uglob(isnan(uglob)) = 0;    % 將 uglob 中的 NaN 值替換為 0
 
-% 循環遍歷位移向量 u_x 的部分
-u_x_sum = 0;
-for i = 1:2:numel(u)
-    u_x_sum = u_x_sum + u(i);
+% 循環遍歷位移向量 uglob_x 的部分
+uglob_x_sum = 0;
+for i = 1:2:numel(uglob)
+    uglob_x_sum = uglob_x_sum + uglob(i);
 end
-fprintf('u 的 x 方向之和: %.3f mm \n\n', u_x_sum / 50); % u 的 x 方向之和
+fprintf('uglob 的 x 方向之和: %.3f mm \n\n', uglob_x_sum / 50); % uglob 的 x 方向之和
 
 %% 解方程系統（求解外力r）
 
@@ -93,7 +105,10 @@ outputFilename = [filename, '_output.opt'];
 
 % 包含求解 stress, strain
 % 存入 strain_stress_matrix[elem#-e11-e22-e12-s11-s22-s12]
-strain_stress_matrix = WriteOutput(outputFilename, ndime,nnode,u,nelem,mate,coor,conn); 
+strain_stress_matrix = WriteOutput(outputFilename, ndime,nnode,uglob,nelem,mate,coor,conn); 
+
+% 畫出應力分佈圖
+plotElemStress(coor, conn, strain_stress_matrix);
 
 
 %% 計算應力或其他所需結果
@@ -130,6 +145,7 @@ end
 
 % 印出總和的應力值
 fprintf('Max stress is %.3f MPa\n', max_stress);
+
 
 %% 找出應力最大值
 
