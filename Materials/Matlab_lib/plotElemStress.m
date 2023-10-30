@@ -1,4 +1,4 @@
-function plotElemStress(coor, conn, strain_stress_matrix)
+function plotElemStress(coor, conn, strain_stress_matrix, order)
     % Plot stress distribution on triangular elements
     
     %{ 
@@ -11,6 +11,11 @@ function plotElemStress(coor, conn, strain_stress_matrix)
 
     % Create a figure
     figure;
+    
+    % 检查是否提供了 order，如果没有提供，则使用默认值 1 (一階)
+    if nargin < 4
+        order = 1;
+    end
 
     % Determine the range of element stress values
     element_stresses = strain_stress_matrix(:, 5);
@@ -22,12 +27,6 @@ function plotElemStress(coor, conn, strain_stress_matrix)
 
     % Loop through each element
     for iel = 1:size(conn, 2)
-        x1 = coor(1, conn(1, iel));
-        y1 = coor(2, conn(1, iel));
-        x2 = coor(1, conn(2, iel));
-        y2 = coor(2, conn(2, iel));
-        x3 = coor(1, conn(3, iel));
-        y3 = coor(2, conn(3, iel));
 
         % Extract the stress value for the current element
         element_stress = element_stresses(iel);
@@ -36,8 +35,9 @@ function plotElemStress(coor, conn, strain_stress_matrix)
         color = jetColormap(element_stress, min_stress, max_stress);
 
         % Define vertices and faces for the patch (triangle)
-        vertices = [x1, y1; x2, y2; x3, y3];
-        faces = [1, 2, 3];
+        vertices = coor(:, conn(:, iel))';
+        
+        faces = 1:size(conn(:, iel), 1)/order;
 
         % Create the patch and set its color
         patch('Vertices', vertices, 'Faces', faces, 'FaceColor', color, 'EdgeColor', 'k');

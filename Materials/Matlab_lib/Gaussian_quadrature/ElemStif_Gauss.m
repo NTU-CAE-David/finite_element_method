@@ -23,7 +23,9 @@ function kel = ElemStif_Gauss(iel,ndime,nelnd,coor,conn,mate)
         end
         N = ShpFunc(nelnd,ndime,xii);
         dNdxi = ShpFuncDeri(nelnd,ndime,xii);
-%         dxdxi = 0;
+        
+
+        dxdxi = zeros(ndime,ndime);
         for i = 1:ndime
             for j = 1:ndime
                 for a = 1:nelnd
@@ -31,10 +33,13 @@ function kel = ElemStif_Gauss(iel,ndime,nelnd,coor,conn,mate)
                 end
             end
         end
-    
+
+        
         dxidx = inv(dxdxi);
         jcb = det(dxdxi);
-%         dNdx = 0.;
+        
+        
+        dNdx = zeros(nelnd,ndime);
         
         for a = 1:nelnd
             for i = 1:ndime
@@ -45,7 +50,7 @@ function kel = ElemStif_Gauss(iel,ndime,nelnd,coor,conn,mate)
         end
         
         cmat = MatStif(ndime,mate);
-        
+       
         for a = 1:nelnd
             for i = 1:ndime
                 for b = 1:nelnd
@@ -55,6 +60,7 @@ function kel = ElemStif_Gauss(iel,ndime,nelnd,coor,conn,mate)
                         for j = 1:ndime
                             for l = 1:ndime
                                 kel(ir,ic)=kel(ir,ic)+cmat(i,j,k,l)*dNdx(b,l)*dNdx(a,j)*w(im)*jcb;
+                      
                             end
                         end
                     end

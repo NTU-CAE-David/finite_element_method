@@ -8,7 +8,7 @@ function strain_stress_matrix = WriteOutput(filename,ndime,nnode,u,nelem,mate,co
     fprintf(outputFile, '*NODE\n');
     fprintf(outputFile, 'node#-u1-u2:\n');
     for node = 1:nnode
-        fprintf(outputFile, '%d %.3f %.3f\n', node, u((node-1)*ndime+1), u((node-1)*ndime+2));
+        fprintf(outputFile, '%d %.6f %.6f\n', node, u((node-1)*ndime+1), u((node-1)*ndime+2));
     end
     
 
@@ -28,7 +28,7 @@ function strain_stress_matrix = WriteOutput(filename,ndime,nnode,u,nelem,mate,co
         strain_stress_matrix(elem, 5:7) = [stress_matrix(1), stress_matrix(2), stress_matrix(3)];
     
         % 打印数据到文件
-        fprintf(outputFile, '%d %.3f %.3f %.3f %.3f %.3f %.3f\n', elem, ...
+        fprintf(outputFile, '%d %.6f %.6f %.6f %.6f %.6f %.6f\n', elem, ...
             strain_matrix(1), strain_matrix(2), strain_matrix(3)/2, ...
             stress_matrix(1), stress_matrix(2), stress_matrix(3));
     end

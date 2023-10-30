@@ -5,7 +5,7 @@ function boundaryElements = findBoundaryElements(coor, conn, xRange, yRange)
     %{ 
         ======使用形式======    
         % 定義要查找的 x 值和 y 值範圍
-        xRange = [64, 65]; % 例如，查找 64 到 65 的邊界元素
+        xRange = [60, 60]; % 例如，查找 64 到 65 的邊界元素
         yRange = [-inf, inf]; % 例如，查找在 y 範圍內的元素
         
         % 呼叫函數查找包含匹配 x 和 y 值範圍的邊界元素

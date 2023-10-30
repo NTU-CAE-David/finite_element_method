@@ -1,5 +1,11 @@
-function write_output_file(filename, nodes, elements)
+function write_output_file(filename, nodes, elements, elementShape)
+    
     % Generate the Mesh input file
+
+    % 检查是否提供了 elementShape，如果没有提供，则使用默认值 3
+    if nargin < 4
+        elementShape = 3;
+    end
     
     % Generate the output filename based on the input filename
 %     inputFilename = [filename, '_input.ipt'];
@@ -27,11 +33,16 @@ function write_output_file(filename, nodes, elements)
     % Write ELEMENT section
     fprintf(fid, '*ELEMENT\n');
     fprintf(fid, "num-elem: %d\n", size(elements, 1));
-    fprintf(fid, "num-elem-node: 3\n");
+    fprintf(fid, "num-elem-node: %d\n", elementShape);
     fprintf(fid, "elem-conn:\n");
+
+    formatString = repmat('%d ', 1, elementShape);  % 根據 elementShape 動態生成格式字串
+    formatString = [formatString(1:end-1) '\n'];  % 添加換行符
+    
     for i = 1:size(elements, 1)
-        fprintf(fid, "%d %d %d\n", elements(i, 1), elements(i, 2), elements(i, 3));
+        fprintf(fid, formatString, elements(i, 1:elementShape));  % 使用動態格式字串輸出數據
     end
+
 
     % Write BOUNDARY section
     fprintf(fid, '*BOUNDARY\n');

@@ -1,7 +1,7 @@
-%% HW03-3: Finite Element Analysis
-% E (GPa)
-% force (kN)
-% length unit (mm)
+%% HW03-2: Finite Element Analysis
+% E (Pa)
+% force (N)
+% length unit (m)
 % stress (Pa)
 % strain
 % Traction = 1 kN/mm
@@ -9,7 +9,7 @@
 clc;clear;
 
 %% 打開文件
-filename = 'hw3-3-a';
+filename = 'rectangle_q4';
 inputFile = fopen(filename, 'r');
 % 讀取輸入數據
 [ndime, nnode, nelem, nelnd, npres, ntrac, mate, coor, conn, pres, trac] = ReadInput(inputFile);
@@ -17,41 +17,41 @@ inputFile = fopen(filename, 'r');
 
 %% 計算全局剛度矩陣
 % 使用 "Basic" 
-kglob = GlobStif(ndime, nnode, nelem, nelnd, mate, coor, conn);
+% kglob = GlobStif(ndime, nnode, nelem, nelnd, mate, coor, conn);
 
 % 使用 "高斯積分法" 
 kglob_Gauss = GlobStif_Gauss(ndime, nnode, nelem, nelnd, mate, coor, conn);
 
-kpres = kglob;
+% kpres = kglob;
 kpres = kglob_Gauss;
 
 % 計算兩個矩陣的誤差值
-error_matrix = kglob - kglob_Gauss;
-abs_error = abs(error_matrix); % 計算誤差的絕對值
-max_error = max(abs_error(:)); % 計算誤差的最大值
-fprintf('兩個矩陣的最大誤差值為：%f\n', max_error); % 顯示誤差的最大值
+% error_matrix = kglob - kglob_Gauss;
+% abs_error = abs(error_matrix); % 計算誤差的絕對值
+% max_error = max(abs_error(:)); % 計算誤差的最大值
+% fprintf('兩個矩陣的最大誤差值為：%f\n', max_error); % 顯示誤差的最大值
 
 %% 讀取 Traction
 rglob = GlobTrac(ndime, nnode, nelem, nelnd, ntrac, mate, coor, conn, trac);
 
-% 計算全局荷載向量(force unit kN)
+% 計算全局荷載向量(force unit N)
 % 讀取 node force [node dof force]
-% force = [1 1 -2500;
-%          2 1 2500];
-% nforce = size(force,1);
-% force = force';
-% 
+force = [31 2 -80000];
+nforce = size(force,1);
+force = force';
+
 % % Initialize rglob to zeros outside the loop
 % rglob = zeros(ndime * nnode, 1);
-% 
-% for i = 1:nforce
-%     node = force(1, i);  % Node where force is prescribed
-%     dof = force(2, i);   % Degree of freedom (e.g., x=1, y=2, z=3)
-%     f_value = force(3, i);  % Prescribed force value
-% 
-%     % Update rglob inside the loop
-%     rglob(node * ndime - (ndime - dof)) = f_value;
-% end
+
+for i = 1:nforce
+    node = force(1, i);  % Node where force is prescribed
+    dof = force(2, i);   % Degree of freedom (e.g., x=1, y=2, z=3)
+    f_value = force(3, i);  % Prescribed force value
+
+    % Update rglob inside the loop
+    rglob(node * ndime - (ndime - dof)) = f_value;
+end
+
 
 rpres = rglob;
 
@@ -115,8 +115,8 @@ plotElemStress(coor, conn, strain_stress_matrix);
 %% 計算應力或其他所需結果
 
 % 定義要查找的 stress 的範圍
-xRnage = [-1, 1]; % 查找 0 到 2.1 的所有邊界點之 stress
-yRnage = [-1, 1];
+xRnage = [-10, 10]; % 查找 0 到 2.1 的所有邊界點之 stress
+yRnage = [-10, 10];
 
 % 調用函數查找包含匹配 x 值的边界元素
 boundaryElements = findBoundaryElements(coor, conn, xRnage, yRnage);
