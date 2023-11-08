@@ -28,7 +28,7 @@ function write_output_file(filename, nodes, elements, elementShape)
     fprintf(fid, '*NODE\n');
     fprintf(fid, "num-node: %d\n", size(nodes, 1));
     fprintf(fid, "nodal-coord:\n");
-    formatString = repmat(' %.6f', 1, ndime); % 根據 ndime 生成格式字符串
+    formatString = repmat('%.6f ', 1, ndime); % 根據 ndime 生成格式字符串
     formatString = [formatString, '\n'];
     
     for i = 1:size(nodes, 1)

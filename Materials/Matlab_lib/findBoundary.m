@@ -22,6 +22,7 @@ function boundaryNodes = findBoundary(coor, xRange, yRange)
     boundaryNodes = [];
     
     coor = coor'; % 轉置
+    ndime = size(coor, 2); % 獲取 coor 數組的列數（每個節點的維度數）
     xCoords = coor(:, 1); % 提取節點的 x 坐標
     yCoords = coor(:, 2); % 提取節點的 y 坐標
     
@@ -41,14 +42,17 @@ function boundaryNodes = findBoundary(coor, xRange, yRange)
 %     fprintf(fid, "num-prescribed-disp: ", );
 %     fprintf(fid, "node#-dof#-disp:\n");
 
+    
     % 輸出 num-prescribed-disp 和節點編號的總數
-    fprintf('num-prescribed-disp: %d\n', size(boundaryNodes, 1)*2);
+    fprintf('num-prescribed-disp: %d\n', size(boundaryNodes, 1) * ndime);
     fprintf('node#-dof#-disp:\n');
-
+    
     % 遍歷邊界節點，並輸出節點編號、自由度和位移
+    formatString = repmat('%d %d %.1f\n', 1, ndime); % 根据 ndime 动态生成格式字符串
     for i = 1:size(boundaryNodes, 1)
-        fprintf('%d %d %.1f\n', boundaryNodes(i, 1), 1, 0.0);
-        fprintf('%d %d %.1f\n', boundaryNodes(i, 1), 2, 0.0);
+        for j = 1:ndime
+            fprintf(formatString, boundaryNodes(i, 1), j, 0.0);
+        end
     end
 
 end
