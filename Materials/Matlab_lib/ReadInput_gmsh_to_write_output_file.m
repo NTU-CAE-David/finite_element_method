@@ -1,9 +1,9 @@
 %% ReadInput_gmsh function
-function [ndime, nnode, nelem, coor, conn] = ReadInput_gmsh_to_write_output_file(infile, elementShape)
+function [ndime, nnode, nelem, coor, conn] = ReadInput_gmsh_to_write_output_file(infile)
     
 % infile: gmsh filename
 % elementShape: 使用的元素形狀有多少點。
-% 例如：8-node quadrilateral elements -> elementShape=8
+% 例如：8-node quadrilateral elements -> elementShape=8 ->不需給定
 
     fileID = fopen(infile, 'r');
 
@@ -21,6 +21,14 @@ function [ndime, nnode, nelem, coor, conn] = ReadInput_gmsh_to_write_output_file
         elseif startsWith(tline, 'NELEM=')
             nelem = str2double(regexp(tline, '\d+', 'match'));
             
+            % 讀取下一行，但不改變文件指針位置
+            pos = ftell(fileID); % 保存當前位置
+            next_line = fgetl(fileID); % 讀取下一行
+            fseek(fileID, pos, 'bof'); % 恢復位置
+    
+            % 在不換行的情況下計算下一行有多少數字
+            elementShape = numel(str2double(strsplit(next_line, ' '))) - 2; % 計算下一行的數字數量
+
             % Reading ELEMENT CONNECTIVITY
             conn = zeros(elementShape, nelem);
             for i = 1:nelem

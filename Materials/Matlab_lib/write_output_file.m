@@ -11,10 +11,12 @@ function write_output_file(filename, nodes, elements, elementShape)
 %     inputFilename = [filename, '_input.ipt'];
     inputFilename = filename;
     fid = fopen(inputFilename, 'w');
+
+    ndime = size(nodes, 2); % 獲取 nodes 數組的列數（每個節點的維度數）
     
     % Write PARAMETER section
     fprintf(fid, '*PARAMETER\n');
-    fprintf(fid, 'num-dim: 2\n');
+    fprintf(fid, 'num-dim: %d\n', ndime);
     
     % Write MATPROP section
     fprintf(fid, '*MATPROP\n');
@@ -26,8 +28,11 @@ function write_output_file(filename, nodes, elements, elementShape)
     fprintf(fid, '*NODE\n');
     fprintf(fid, "num-node: %d\n", size(nodes, 1));
     fprintf(fid, "nodal-coord:\n");
+    formatString = repmat(' %.6f', 1, ndime); % 根據 ndime 生成格式字符串
+    formatString = [formatString, '\n'];
+    
     for i = 1:size(nodes, 1)
-        fprintf(fid, "%.6f %.6f\n", nodes(i, 1), nodes(i, 2));
+        fprintf(fid, formatString, nodes(i, 1:ndime)); % 根據 ndime 調整輸出的數量
     end
     
     % Write ELEMENT section
