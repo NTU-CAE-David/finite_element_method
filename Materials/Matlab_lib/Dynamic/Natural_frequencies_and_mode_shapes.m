@@ -69,9 +69,9 @@ for k = 1:nmod
     u_temp(:,1) = u(:,k);
 
     % Write VTK file
-    vtkShapeID = 8; % 設置VTK形狀 ID＝8
+    vtkShapeID = 9; % 設置VTK形狀 ID＝9
     % 一個 mod 做一個檔案
-    WriteVTKFile([num2str(k),'mod03.txt'], nnode, ndime, nelem, nelnd, coor, conn, u_temp, vtkShapeID);
+    WriteVTKFile([num2str(k),'mod03.vtk'], nnode, ndime, nelem, nelnd, coor, conn, u_temp, vtkShapeID);
     
 end
 
