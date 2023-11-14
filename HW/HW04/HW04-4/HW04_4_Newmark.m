@@ -70,11 +70,10 @@ for i = 1:nstp
     
     if(iprt == nprt)
         iprt = 0;
-
-
+        
         vtkShapeID = 9; % 設置VTK形狀 ID＝9
         % 一個 mod 做一個檔案
-        WriteVTKFile(['01dyna', num2str(indi)], nnode, ndime, nelem, nelnd, coor, conn, uc, vtkShapeID);
+        WriteVTKFile(['04dyna', num2str(indi)], nnode, ndime, nelem, nelnd, coor, conn, uc, vtkShapeID);
 
         indi = indi+1;
 

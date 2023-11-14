@@ -46,12 +46,14 @@ for i = 1:ndime*nnode
     lambdasort(i) = lambda(i,i);
 end
 lambdasort = unique(sort(lambdasort));
+[~, index] = sort(diag(lambda));
+
 
 % mode shapes
 nmod = mate(10);
 
 for i = 1:nmod
-    disp(['freq-', num2str(i), ': ', num2str(lambdasort(i+1)^(1/2))]);
+    
 end
 
 if(ndime == 2)
@@ -60,7 +62,6 @@ else
     nmodrbm = 6;
 end
 u = zeros(nnode*ndime,nmod);
-u_temp = zeros(nnode*ndime,1);
 
 for k = 1:nmod
     for i = 1:nnode*ndime
@@ -70,13 +71,16 @@ for k = 1:nmod
         end
     end
 
-    u(:,k) = mpresrootinv*q(:,ipick); % u = M^{-1/2}*Q*w
-    u_temp(:,1) = u(:,k);
+    u(:,k) = mpresrootinv*q(:,index(k+size(pres,2))); % u = M^{-1/2}*Q*w
+%     u(:,k) = mpresrootinv*q(:,ipick);
+
+    disp(['freq-', num2str(k), ': ', num2str(lambdasort(k+1)^(1/2))]);
+
 
     % Write VTK file
     vtkShapeID = 9; % 設置VTK形狀 ID＝9
     % 一個 mod 做一個檔案
-    WriteVTKFile([num2str(k),'mod03'], nnode, ndime, nelem, nelnd, coor, conn, u_temp, vtkShapeID);
+    WriteVTKFile([num2str(k),'mod04'], nnode, ndime, nelem, nelnd, coor, conn, u(:,k), vtkShapeID);
     
 end
 

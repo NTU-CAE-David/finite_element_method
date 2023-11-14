@@ -1,8 +1,8 @@
-function WriteVTKFile(filename, nnode, ndime, nelem, nelnd, coor, conn, uc, vtkShapeID)
+function WriteVTKFile(filename, nnode, ndime, nelem, nelnd, coor, conn, uc, vtkShapeID, strain_stress_matrix)
     % Write VTK file with the given data
     
     % Open the file for writing
-    fid = fopen(filename, 'w');
+    fid = fopen([filename, '.vtk'], 'w');
     if fid == -1
         error('Cannot open the file for writing');
     end
@@ -50,6 +50,28 @@ function WriteVTKFile(filename, nnode, ndime, nelem, nelnd, coor, conn, uc, vtkS
         fprintf(fid, "LOOKUP_TABLE default\n");
         for k = 1:nnode
             fprintf(fid, "%f\n", uc(ndime * (k - 1) + j, 1));
+        end
+    end
+
+    
+    % Check if strain_stress_matrix is provided
+    if nargin == 10 && ~isempty(strain_stress_matrix)
+        % Write "strain": e11, e12, e22
+        for i = 1:3
+            fprintf(fid, "SCALARS strain_%d float\n", i);
+            fprintf(fid, "LOOKUP_TABLE default\n");
+            for k = 1:nelem
+                fprintf(fid, "%f\n", strain_stress_matrix(k, i+1));
+            end
+        end
+
+        % Write "stress": s11, s12, s22
+        for i = 1:3
+            fprintf(fid, "SCALARS stress_%d float\n", i);
+            fprintf(fid, "LOOKUP_TABLE default\n");
+            for k = 1:nelem
+                fprintf(fid, "%f\n", strain_stress_matrix(k, i+4));
+            end
         end
     end
 
