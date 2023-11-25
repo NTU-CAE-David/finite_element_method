@@ -49,7 +49,7 @@ function WriteVTKFile(filename, nnode, ndime, nelem, nelnd, coor, conn, uc, vtkS
         fprintf(fid, "SCALARS u%d float\n", j);
         fprintf(fid, "LOOKUP_TABLE default\n");
         for k = 1:nnode
-            fprintf(fid, "%f\n", uc(ndime * (k - 1) + j, 1));
+            fprintf(fid, "%.g\n", uc(ndime * (k - 1) + j, 1));
         end
     end
 
