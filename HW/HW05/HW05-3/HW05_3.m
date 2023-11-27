@@ -79,15 +79,6 @@ for i = 1:nnode
     uc((i - 1) * ndime + 2, 1) = u_0(x);
 end
 
-% for i=1:nnode
-%     displacements = 0.0;
-%     for n=1:1000
-%         term = calculate_displacement;
-%         displacements = displacements + term;
-%     end
-%     uc((i-1)*ndime+2,1) = displacements;
-% end
-
 %% Newmark Method
 mkpres = mpres+0.5*beta2*dt*dt*kpres;
 ac = mkpres\(-kpres*uc+rpres);
@@ -108,7 +99,7 @@ for i = 1:nstp
 
         vtkShapeID = 9; % 設置VTK形狀 ID＝9
         % 一個 mod 做一個檔案
-        WriteVTKFile([filename,'_dyna', num2str(indi)], nnode, ndime, nelem, nelnd, coor, conn, uc/0.03, vtkShapeID);
+        WriteVTKFile([filename,'_dyna', num2str(indi)], nnode, ndime, nelem, nelnd, coor, conn, uc, vtkShapeID);
 
         indi = indi+1;
 

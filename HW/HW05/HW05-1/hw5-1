@@ -2,14 +2,14 @@
 num-dim: 2
 *MATPROP
 b-plane-strain: 1
-young's-modulus: 12981500000
+young's-modulus: 125000000000000
 poisson's-ratio: 0.3
 density: 1.14
 beta1: 0.5
 beta2: 0.5
-dt: 0.01
-nstp: 101
-nprt: 20
+dt: 0.000001
+nstp: 60
+nprt: 1
 nmod: 5
 *NODE
 num-node: 405

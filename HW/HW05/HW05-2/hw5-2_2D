@@ -7,9 +7,9 @@ poisson's-ratio: 0
 density: 8.96
 beta1: 0.5
 beta2: 0.5
-dt: 0.01
-nstp: 101
-nprt: 10
+dt: 0.0001
+nstp: 50
+nprt: 1
 nmod: 5
 *NODE
 num-node: 341

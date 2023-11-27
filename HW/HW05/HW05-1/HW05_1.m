@@ -83,8 +83,13 @@ end
 mkpres = mpres+0.5*beta2*dt*dt*kpres;
 ac = mkpres\(-kpres*uc+rpres);
 
+vtkShapeID = 9; % 設置VTK形狀 ID＝9
+% 一個 mod 做一個檔案
+WriteVTKFile([filename,'_dyna_', num2str(0)], nnode, ndime, nelem, nelnd, coor, conn, uc, vtkShapeID);
+
+
 iprt = 0;
-indi = 0;
+indi = 1;
 for i = 1:nstp
 
     t = t + dt;
@@ -100,8 +105,8 @@ for i = 1:nstp
 
         vtkShapeID = 9; % 設置VTK形狀 ID＝9
         % 一個 mod 做一個檔案
-        WriteVTKFile([filename,'_dyna_', num2str(t)], nnode, ndime, nelem, nelnd, coor, conn, uc/0.033, vtkShapeID);
-
+        WriteVTKFile([filename,'_dyna_', num2str(i)], nnode, ndime, nelem, nelnd, coor, conn, uc, vtkShapeID);
+        
         indi = indi+1;
 
     end

@@ -61,7 +61,7 @@ uc = zeros(nnode*ndime,1);
 %% 初始位移 u(x,t=0)
 % P(a,t=0) = P0*sin(wt) = 0
 t = 0;
-P0 = f_value/0.03;  % Prescribed force value
+P0 = f_value;  % Prescribed force value
 w1 = 14469.9;
 w = 0.1*w1;
 
@@ -88,12 +88,12 @@ for i = 1:nstp
     vc = vn;
     uc = un;
     
-    if(iprt == nprt)
+    if(iprt == nprt || iprt == 0)
         iprt = 0;
 
         vtkShapeID = 9; % 設置VTK形狀 ID＝9
         % 一個 mod 做一個檔案
-        WriteVTKFile([filename,'_dyna', num2str(indi)], nnode, ndime, nelem, nelnd, coor, conn, uc, vtkShapeID);
+        WriteVTKFile([filename,'_dyna', num2str(indi)], nnode, ndime, nelem, nelnd, coor, conn, uc/0.03, vtkShapeID);
 
         indi = indi+1;
 

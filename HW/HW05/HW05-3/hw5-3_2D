@@ -3,13 +3,13 @@ num-dim: 2
 *MATPROP
 b-plane-strain: 1
 young's-modulus: 130000000000
-poisson's-ratio: 0
+poisson's-ratio: 0.3
 density: 8.96
 beta1: 0.5
 beta2: 0.5
-dt: 0.01
-nstp: 101
-nprt: 10
+dt: 0.00002
+nstp: 100
+nprt: 1
 nmod: 5
 *NODE
 num-node: 341
