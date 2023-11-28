@@ -73,7 +73,7 @@ function kel = ElemStif_hyper(iel,ndime,nelnd,coor,conn,mate,wglob)
                             for l = 1:ndime
                                 kel(ir,ic) = kel(ir,ic)+dsde(i,j,k,l)*dNdy(a,j)*dNdy(b,l)*w(im)*jcb;
                             end
-                            kel(ir,ic) = kel(ir,ic)-tau(i,j)*dNdy(a,k)*dNdy(b,j)*w(intpt)*jcb;
+                            kel(ir,ic) = kel(ir,ic)-tau(i,j)*dNdy(a,k)*dNdy(b,j)*w(im)*jcb;
                         end
                     end 
                 end
