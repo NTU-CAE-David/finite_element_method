@@ -75,8 +75,8 @@ calculate_Cn = @(n) (integral(@(x) u_0(x) .* sin((2 * n + 1) * pi * x / (2 * L))
 
 for i = 1:nnode
     x = coor(1, i);
-%     uc((i - 1) * ndime + 2, 1) = calculateDisplacement(x, t, 100, L, calculate_Cn, c);
-    uc((i - 1) * ndime + 2, 1) = u_0(x);
+%     uc((i - 1) * ndime + 1, 1) = calculateDisplacement(x, t, 100, L, calculate_Cn, c);
+    uc((i - 1) * ndime + 1, 1) = u_0(x);
 end
 
 %% Newmark Method
