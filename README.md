@@ -14,34 +14,18 @@ Welcome to the MATLAB-Based Finite Element Analysis Framework repository for ME 
 ├── HW
 │   ├── HW01
 │   ├── HW02
-│   └── HW03
+│   ├── HW03
+│   ├── HW04
+│   └── HW05
 ├── Materials
 │   ├── Demo
 │   └── Matlab_lib
-│       ├── ElemStif.m
-│       ├── ElemStrain.m
-│       ├── ElemTrac.m
+│       ├── Dynamic
 │       ├── Gaussian_quadrature
-│       │   ├── ElemStif_Gauss.m
-│       │   ├── GlobStif_Gauss.m
-│       │   ├── IntegPt.m
-│       │   ├── IntegWt.m
-│       │   ├── MatStif.m
-│       │   ├── ShpFunc.m
-│       │   ├── ShpFuncDeri.m
-│       │   └── numIntegPt.m
-│       ├── GlobStif.m
-│       ├── GlobTrac.m
-│       ├── ReadInput.m
-│       ├── WriteOutput.m
-│       ├── distmesh-2_ntu.zip
-│       ├── distmesh.zip
-│       ├── distmesh_ntu
-│       ├── distmesh_v10.zip
-│       ├── findBoundary.m
-│       ├── findBoundaryElements.m
-│       ├── plot_triangular_mesh.m
-│       └── write_output_file.m
+│       ├── Nonlinear
+│       │   ├── Hyperelasticity
+│       │   └── Hypoelasticity
+│       └── distmesh_ntu
 ├── README.md
 └── finite_element_method-main
     └── mesh_generator
