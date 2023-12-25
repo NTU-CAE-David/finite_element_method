@@ -1,7 +1,7 @@
-function kglob = GlobStif_hypo(ndime,nnode,nelem,nelnd,mate,coor,conn,wglob)
+function kglob = GlobStif_BBar(ndime,nnode,nelem,nelnd,mate,coor,conn,wglob)
     kglob = zeros(ndime*nnode,ndime*nnode);
     for j = 1:nelem
-        kel = ElemStif_hypo(j,ndime,nelnd,coor,conn,mate,wglob);
+        kel = ElemStif_BBar(j,ndime,nelnd,coor,conn,mate,wglob);
         for a = 1:nelnd
             for i = 1:ndime
                 for b = 1:nelnd

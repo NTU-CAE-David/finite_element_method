@@ -1,0 +1,50 @@
+function strain_stress_matrix = WriteOutput_Gauss(filename,ndime,nnode,u,nelem,mate,coor,conn)
+    % Generate the FEM calculate solution to save in "output.opt"
+    
+    % Open the output file for writing
+    outputFile = fopen(filename, 'w');
+    
+    %% Write nodal displacements to the output file
+    fprintf(outputFile, '*NODE\n');
+    fprintf(outputFile, 'node#-u1-u2:\n');
+    for node = 1:nnode
+        fprintf(outputFile, '%d %.6f %.6f\n', node, u((node-1)*ndime+1), u((node-1)*ndime+2));
+    end
+    
+
+    %% Write element results(Strain and Stress) to the output file
+    fprintf(outputFile, '*ELEMENT\n');
+    fprintf(outputFile, 'elem#-e11-e22-e12-s11-s22-s12\n');
+
+    % 初始化一个矩阵来存储应变和应力数据
+    strain_stress_matrix = zeros(nelem, 7);
+    
+    for elem = 1:nelem
+        [strain_matrix, stress_matrix] = ElemStrain_Gauss(ndime,elem,nelnd,coor,conn, mate, u); % 可能需要提出來glob的方式處理
+        
+        % 存储元素号和应变、应力数据到矩阵中
+        strain_stress_matrix(elem, 1) = elem;
+        if ndime == 2
+            strain_stress_matrix(elem, 2:4) = [strain_matrix(1), strain_matrix(2), strain_matrix(3)/2];
+            strain_stress_matrix(elem, 5:7) = [stress_matrix(1), stress_matrix(2), stress_matrix(3)];
+            % 打印数据到文件
+            fprintf(outputFile, '%d %.6f %.6f %.6f %.6f %.6f %.6f\n', elem, ...
+                strain_matrix(1), strain_matrix(2), strain_matrix(3)/2, ...
+                stress_matrix(1), stress_matrix(2), stress_matrix(3));
+        else
+            strain_stress_matrix(elem, 2:7) = [strain_matrix(1), strain_matrix(2), strain_matrix(3), strain_matrix(4)/2, strain_matrix(5)/2, strain_matrix(6)/2];
+            strain_stress_matrix(elem, 8:13) = [stress_matrix(1), stress_matrix(2), stress_matrix(3), stress_matrix(4), stress_matrix(5), stress_matrix(6)];
+            % 打印数据到文件
+            fprintf(outputFile, '%d %.6f %.6f %.6f %.6f %.6f %.6f %.6f %.6f %.6f %.6f %.6f %.6f\n', elem, ...
+                strain_matrix(1), strain_matrix(2), strain_matrix(3), strain_matrix(4)/2, strain_matrix(5)/2, strain_matrix(6)/2, ...
+                stress_matrix(1), stress_matrix(2), stress_matrix(3), stress_matrix(4), stress_matrix(5), stress_matrix(6));
+        end
+    
+        
+    end
+
+    % Close the output file
+    fclose(outputFile);
+
+end
+

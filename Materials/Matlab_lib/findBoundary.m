@@ -1,19 +1,23 @@
-function boundaryNodes = findBoundary(coor, xRange, yRange)
-    % 尋找指定 x 和 y 範圍內的邊界點及其節點編號
+function boundaryNodes = findBoundary(coor, xRange, yRange, zRange)
+    % 尋找指定 x、y 和 z 範圍內的邊界點及其節點編號
     % 將輸出的 Boundary 手動覆蓋到 input 檔中
     % 包含於 findBoundaryElements.m 中執行，無需獨立執行！！
 
     %{ 
         ======使用形式======    
-        % 定義要查找的 x 值
+        % 定義要查找的 x、y 和 z 值
         xRange = [64, 65]; % 例如，查找 64 到 65 的所有邊界點
         yRange = [-inf, inf]; % 例如，查找在 y 範圍內的元素
+        zRange = [-inf, inf]; % 例如，查找在 z 範圍內的元素
         
-        % 調用函數查找匹配 x 值的邊界點及其節點編號
-        boundaryNodes = findBoundary(coor, xRange);
+        % 調用函數查找匹配 x、y 和 z 值的邊界點及其節點編號
+        boundaryNodes = findBoundary(coor, xRange, yRange, zRange);
     %}
-
-    % 檢查是否提供了 y 範圍，預設為無限制
+    
+    % 檢查是否提供了 y 和 z 範圍，預設為無限制
+    if nargin < 4
+        zRange = [-inf, inf];
+    end
     if nargin < 3
         yRange = [-inf, inf];
     end
@@ -25,15 +29,22 @@ function boundaryNodes = findBoundary(coor, xRange, yRange)
     ndime = size(coor, 2); % 獲取 coor 數組的列數（每個節點的維度數）
     xCoords = coor(:, 1); % 提取節點的 x 坐標
     yCoords = coor(:, 2); % 提取節點的 y 坐標
+    if ndime == 3
+        zCoords = coor(:, 3); % 提取節點的 z 坐標
+    else
+        zCoords = zeros(size(xCoords)); % 提取節點的 z 坐標
+    end
     
-
-    % 遍歷 xCoords 和 yCoords 陣列
+    % 遍歷 xCoords、yCoords 和 zCoords 陣列
     for i = 1:numel(xCoords)
         xValue = xCoords(i);
         yValue = yCoords(i);
+        zValue = zCoords(i);
     
-        % 檢查 xValue 和 yValue 是否在指定的範圍內
-        if xValue >= xRange(1) && xValue <= xRange(2) && yValue >= yRange(1) && yValue <= yRange(2)
+        % 檢查 xValue、yValue 和 zValue 是否在指定的範圍內
+        if xValue >= xRange(1) && xValue <= xRange(2) && ...
+           yValue >= yRange(1) && yValue <= yRange(2) && ...
+           zValue >= zRange(1) && zValue <= zRange(2)
             % 如果在範圍內，將節點索引和座標添加到結果中
             boundaryNodes = [boundaryNodes; i, coor(i, :)];
         end

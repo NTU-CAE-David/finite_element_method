@@ -1,4 +1,5 @@
-function kel = ElemStif_hyper(iel,ndime,nelnd,coor,conn,mate,wglob)
+function [kel, stress] = ElemStif_hyper(iel,ndime,nelnd,coor,conn,mate,wglob)
+    
     kel = zeros(ndime*nelnd,ndime*nelnd);
     coorie = zeros(ndime,nelnd);
     wie = zeros(ndime,nelnd);
@@ -10,6 +11,9 @@ function kel = ElemStif_hyper(iel,ndime,nelnd,coor,conn,mate,wglob)
     M = numIntegPt(ndime,nelnd);
     xi = IntegPt(ndime,nelnd,M);
     w = IntegWt(ndime,nelnd,M);
+
+    stress = zeros(ndime, ndime, M);
+
     for a = 1:nelnd
         for i = 1:ndime
             coorie(i,a) = coor(i,conn(a,iel));
@@ -62,7 +66,8 @@ function kel = ElemStif_hyper(iel,ndime,nelnd,coor,conn,mate,wglob)
             end 
         end
         tau = KchStrs(ndime,mate,B,jhat);
-        dsde = MatStif_hyper(ndime,mate,epsi);
+        stress(:,:,im) = jhat\tau;
+        dsde = MatStif_hyper(ndime,mate,B,jhat);
         for a = 1:nelnd
             for i = 1:ndime
                 for b = 1:nelnd

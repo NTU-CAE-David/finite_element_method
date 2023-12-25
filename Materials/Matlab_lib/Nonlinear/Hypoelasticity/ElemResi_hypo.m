@@ -42,11 +42,11 @@ function fel = ElemResi_hypo(iel,ndime,nelnd,coor,conn,mate,wglob)
         for i = 1:ndime
             for j = 1:ndime
                 for a = 1:nelnd
-                    epsi(i,j) = epsi(i,j)+0.5*(wie(i,a)*dNdx(a,j)+wie(j,a)*dNdx(a,i));
+                    epsi(i,j) = epsi(i,j)+0.5*(wie(i,a)*dNdx(a,j)+wie(j,a)*dNdx(a,i)); % Strain
                 end
             end
         end
-        sigm = MatStrs(ndime,mate,epsi);
+        sigm = MatStrs(ndime,mate,epsi); % Stress
         for a = 1:nelnd
             for i = 1:ndime
                 ir = ndime*(a-1)+i;

@@ -1,7 +1,13 @@
-function kglob = GlobStif_hyper(ndime,nnode,nelem,nelnd,mate,coor,conn,wglob)
-    kglob = zeros(ndim*nnode,ndim*nnode);
+function [kglob, stress] = GlobStif_hyper(ndime,nnode,nelem,nelnd,mate,coor,conn,wglob)
+    
+    kglob = zeros(ndime*nnode,ndime*nnode);
+
+    M = numIntegPt(ndime,nelnd);
+    stress = zeros(ndime,ndime,M,nelem);
+
     for j = 1:nelem
-        kel = ElemStif_hyper(j,ndime,nelnd,coor,conn,mate,wglob);
+        [kel, stress] = ElemStif_hyper(j,ndime,nelnd,coor,conn,mate,wglob);
+        stress(:,:,:,j) = stress;
         for a = 1:nelnd
             for i = 1:ndime
                 for b = 1:nelnd

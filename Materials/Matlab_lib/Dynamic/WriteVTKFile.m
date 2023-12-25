@@ -56,20 +56,20 @@ function WriteVTKFile(filename, nnode, ndime, nelem, nelnd, coor, conn, uc, vtkS
     
     % Check if strain_stress_matrix is provided
     if nargin == 10 && ~isempty(strain_stress_matrix)
-        % Write "strain": e11, e12, e22
+        % Write "strain": e11, e22, e12
         for i = 1:3
             fprintf(fid, "SCALARS strain_%d float\n", i);
             fprintf(fid, "LOOKUP_TABLE default\n");
-            for k = 1:nelem
+            for k = 1:nnode
                 fprintf(fid, "%f\n", strain_stress_matrix(k, i+1));
             end
         end
 
-        % Write "stress": s11, s12, s22
+        % Write "stress": s11, s22, s12
         for i = 1:3
             fprintf(fid, "SCALARS stress_%d float\n", i);
             fprintf(fid, "LOOKUP_TABLE default\n");
-            for k = 1:nelem
+            for k = 1:nnode
                 fprintf(fid, "%f\n", strain_stress_matrix(k, i+4));
             end
         end
